@@ -1,0 +1,6 @@
+; SPDX-FileCopyrightText: 2026 Jérémy Prin
+; SPDX-License-Identifier: MIT OR Apache-2.0
+
+ident = letter { letter | digit }.
+number = digit { digit }.
+digit = "0" | "1" | "2" | "3".

@@ -1,0 +1,30 @@
+# SPDX-FileCopyrightText: 2026 Jérémy Prin
+# SPDX-License-Identifier: MIT OR Apache-2.0
+
+import io
+import sys
+
+from loguru import logger
+
+from ebnf_compiler.parser import Parser
+from ebnf_compiler.scanner import Scanner
+
+SRC = """
+syntax = {production}.
+production = identifier "=" expression "." .
+expression = term {"|" term}.
+term = factor {factor}.
+factor = identifier | string | "(" expression ")" | "[" expression "]" | "{" expression "}".
+"""
+
+
+def test_simple():
+    logger.remove()
+    _ = logger.add(sys.stdout, level="INFO")
+
+    scanner = Scanner()
+    source = io.StringIO(SRC)
+    scanner.init(source)
+    parser = Parser(scanner=scanner)
+
+    parser.parse()
