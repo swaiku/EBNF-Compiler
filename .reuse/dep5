@@ -1,8 +1,0 @@
-Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
-Upstream-Name: tp01-parser
-Upstream-Contact: Jérémy Prin
-Source: https://github.com/
-
-Files: .gitignore .python-version uv.lock pyproject.toml .pre-commit-config.yaml README.md docs/Makefile docs/make.bat docs/index.rst
-Copyright: 2026 Jérémy Prin
-License: MIT OR Apache-2.0
