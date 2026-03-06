@@ -1,7 +1,6 @@
 # SPDX-FileCopyrightText: 2026 Jacques Supcik <jacques.supcik@hefr.ch>
 #
 # SPDX-License-Identifier: Apache-2.0 OR MIT
-
 """
 EBNF Scanner
 """
@@ -25,14 +24,12 @@ class Scanner:
     eof: bool = False
     sym: Token | None = None  # Next Symbol
     value: str = ""
-
     _ch: str = ""
     _file_name: Path | None = None
     _text: typing.TextIO | None = None
     _text_line: str = ""
     _line_no: int = 0
     _col_no: int = 0
-
     token_map: typing.ClassVar[dict[str, Token]] = {
         "=": Token.EQL,
         "(": Token.LPAREN,
@@ -65,9 +62,40 @@ class Scanner:
             f"(File {self._file_name}, Line {self._line_no}, Column {self._col_no})",
         )
 
+    def skip_comment(self) -> None:
+        """Skip a (* ... *) EBNF comment, supporting nesting."""
+        self.get_next_char()  # skip '*'
+        depth = 1
+        while not self.eof and depth > 0:
+            if self._ch == "(":
+                self.get_next_char()
+                if self._ch == "*":
+                    depth += 1
+                    self.get_next_char()
+            elif self._ch == "*":
+                self.get_next_char()
+                if self._ch == ")":
+                    depth -= 1
+                    self.get_next_char()
+            else:
+                self.get_next_char()
+        if self.eof and depth > 0:
+            self.print_error("Unterminated comment")
+
     def skip_space(self) -> None:
-        while self._ch.isspace():
-            self.get_next_char()
+        while self._ch.isspace() or self._ch == "(":
+            if self._ch == "(":
+                self.get_next_char()
+                if self._ch == "*":
+                    self.skip_comment()
+                else:
+                    # Not a comment - restore '(' as current char and stop
+                    self._text_line = self._ch + self._text_line
+                    self._col_no -= 1
+                    self._ch = "("
+                    break
+            else:
+                self.get_next_char()
 
     def get_next_char(self) -> None:
         if self._text is None:
@@ -97,7 +125,6 @@ class Scanner:
             while self._ch.isalpha():
                 self.value += self._ch
                 self.get_next_char()
-
         elif self._ch == '"':
             self.sym = Token.LITERAL
             self.value = ""
