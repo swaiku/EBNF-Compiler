@@ -25,6 +25,8 @@ from .scanner import Scanner
 console = Console()
 app = typer.Typer()
 
+__version__ = "0.2.0"
+
 
 @dataclass
 class Compiler:
