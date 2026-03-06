@@ -5,6 +5,7 @@
 [![CI][ci-shield]][ci-url]
 [![MIT License][license-shield]][license-url]
 [![Python][python-shield]][python-url]
+[![Docs][docs-shield]][docs-url]
 
 <!-- PROJECT LOGO -->
 <br />
@@ -14,7 +15,7 @@
   <p align="center">
     A Python tool for parsing and analyzing Extended Backus-Naur Form (EBNF) grammars - with a clean CLI, AST output, and symbol analysis.
     <br />
-    <a href="https://github.com/swaiku/EBNF-Compiler"><strong>Explore the docs »</strong></a>
+    <a href="https://swaiku.github.io/EBNF-Compiler/"><strong>Explore the docs »</strong></a>
     <br />
     <br />
     <a href="#usage">View Demo</a>
@@ -217,8 +218,6 @@ Project link: [https://github.com/swaiku/EBNF-Compiler](https://github.com/swaik
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
----
-
 <!-- MARKDOWN LINKS & IMAGES -->
 [ci-shield]: https://img.shields.io/github/actions/workflow/status/swaiku/EBNF-Compiler/ci.yml?branch=main&style=for-the-badge&label=CI
 [ci-url]: https://github.com/swaiku/EBNF-Compiler/actions/workflows/ci.yml
@@ -226,3 +225,5 @@ Project link: [https://github.com/swaiku/EBNF-Compiler](https://github.com/swaik
 [license-url]: https://github.com/swaiku/EBNF-Compiler/blob/main/LICENSE
 [python-shield]: https://img.shields.io/badge/Python-3.11+-blue?style=for-the-badge&logo=python&logoColor=white
 [python-url]: https://www.python.org/
+[docs-shield]: https://img.shields.io/badge/docs-github%20pages-blue?style=for-the-badge
+[docs-url]: https://swaiku.github.io/EBNF-Compiler/
