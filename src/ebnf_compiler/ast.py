@@ -10,11 +10,16 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
+from typing_extensions import override
+
 
 @dataclass
 class Node:
-    def as_text(self) -> str:
+    def rich(self) -> str:
         return ""
+
+    def referenced_idents(self) -> set[str]:
+        return set()
 
 
 @dataclass
@@ -26,9 +31,11 @@ class Factor(Node):
 class Identifier(Factor):
     value: str
 
+    @override
     def rich(self) -> str:
         return f"{self.value}"
 
+    @override
     def referenced_idents(self) -> set[str]:
         return {self.value}
 
@@ -37,9 +44,11 @@ class Identifier(Factor):
 class Literal(Factor):
     value: str
 
+    @override
     def rich(self) -> str:
         return f'[green]"{self.value}"[/green]'
 
+    @override
     def referenced_idents(self) -> set[str]:
         return set()
 
@@ -48,9 +57,11 @@ class Literal(Factor):
 class Term(Node):
     factors: list[Factor]
 
+    @override
     def rich(self) -> str:
         return " ".join(f.rich() for f in self.factors)
 
+    @override
     def referenced_idents(self) -> set[str]:
         result: set[str] = set()
         for f in self.factors:
@@ -63,12 +74,14 @@ class Expression(Factor):
     terms: list[Term]
     paren: bool = False
 
+    @override
     def rich(self) -> str:
         inner = " [dim]|[/dim] ".join(t.rich() for t in self.terms)
         if self.paren:
             return f"[dim]([/dim] {inner} [dim])[/dim]"
         return inner
 
+    @override
     def referenced_idents(self) -> set[str]:
         result: set[str] = set()
         for t in self.terms:
@@ -80,9 +93,11 @@ class Expression(Factor):
 class Option(Factor):
     expr: Expression
 
+    @override
     def rich(self) -> str:
         return f"[dim][[/dim] {self.expr.rich()} [dim]][/dim]"
 
+    @override
     def referenced_idents(self) -> set[str]:
         return self.expr.referenced_idents()
 
@@ -91,9 +106,11 @@ class Option(Factor):
 class Repetition(Factor):
     expr: Expression
 
+    @override
     def rich(self) -> str:
         return f"[dim]{{[/dim] {self.expr.rich()} [dim]}}[/dim]"
 
+    @override
     def referenced_idents(self) -> set[str]:
         return self.expr.referenced_idents()
 
@@ -103,6 +120,7 @@ class Production(Node):
     identifier: Identifier
     expression: Expression
 
+    @override
     def rich(self) -> str:
         return (
             f"[bold yellow]{self.identifier.value}[/bold yellow]"
@@ -114,6 +132,7 @@ class Production(Node):
 class Syntax(Node):
     production: list[Production]
 
+    @override
     def rich(self) -> str:
         return "\n".join(prod.rich() for prod in self.production)
 

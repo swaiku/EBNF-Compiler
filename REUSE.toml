@@ -1,5 +1,5 @@
 version = 1
-SPDX-PackageName = "tp01-parser"
+SPDX-PackageName = "ebnf-compiler"
 SPDX-PackageSupplier = "Jérémy Prin"
 SPDX-PackageDownloadLocation = "https://github.com/"
 
